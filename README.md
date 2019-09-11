@@ -1,14 +1,3 @@
-# A Blank PhoneGap App
+# Hand Cricket
 
-## Usage
-
-### PhoneGap CLI
-
-    $ phonegap create my-app --template blank
-
-### Desktop
-
-In your browser, open the file:
-
-    /www/index.html
-
+A fun and easy-to-play hand-based cricket game!
