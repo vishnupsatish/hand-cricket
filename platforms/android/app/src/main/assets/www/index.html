@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Hand Cricket</title>
+</head>
+
+<body>
+    <img id="backgroundimg" src="img/CricketBackground.jpg">
+    <h1 class="title">Hand Cricket</h1>
+    <div id="firstPage">
+        <img id="logoimg" src="img/HandCric.png">
+        <button class="simplebutton" onclick="goToTossScreen()">Play!</button>
+    </div>
+
+    <div id="secondPage" class="hideBegin" style="display: none">
+        <button onclick="headsOrTails('Heads')" class="simplebutton"><img class="normalImgButton" src="img/Heads.png"> Heads</button>
+        <button onclick="headsOrTails('Tails')" class="simplebutton"><img class="normalImgButton" src="img/Tails.png"> Tails</button>
+        <button onclick="goHome()" class="simplebutton homeButton"><i class="fas fa-home"></i> Home</button>
+    </div>
+
+    <div id="wonToss" class="hideBegin" style="display: none">
+        <h1 class="normalLabel">You have won the toss! Would you like to bat or bowl first?</h1>
+        <button onclick="goToGameScreen('Bat')" class="simplebutton"><img class="normalImgButton" src="img/Bat.png"> Bat</button>
+        <button onclick="goToGameScreen('Bowl')" class="simplebutton"><img class="normalImgButton"src="img/Ball.png"> Bowl</button>
+        <button onclick="goHome()" class="simplebutton homeButton"><i class="fas fa-home"></i> Home</button>
+
+    </div>
+
+    <div id="lostToss" class="hideBegin" style="display: none">
+        <h1 class="normalLabel" id="lostTossHeader"></h1>
+        <img class="batBowlClass" id="lostTossBatBowl">
+        <button id="lostTossButton" class="simplebutton">Okay</button>
+        <button onclick="goHome()" class="simplebutton homeButton"><i class="fas fa-home"></i> Home</button>
+
+    </div>
+
+    <div id="gameScreen" class="hideBegin" style="display: none">
+        <img class="batBowlClass normalImgButton" id="batOrBowlImg">
+        <h1 class="normalLabel" id="gameScreenText"></h1>
+        <div id="runButtonLayout">
+            <button onclick="runButtonPressed(1)" class="simplebutton runButton"><img class="normalImgButton" src="img/1Runs.png"></button>
+            <button onclick="runButtonPressed(2)" class="simplebutton runButton"><img class="normalImgButton" src="img/2Runs.png"></button>
+            <button onclick="runButtonPressed(3)" class="simplebutton runButton"><img class="normalImgButton" src="img/3Runs.png"></button>
+            <button onclick="runButtonPressed(4)" class="simplebutton runButton"><img class="normalImgButton" src="img/4Runs.png"></button>
+            <button onclick="runButtonPressed(5)" class="simplebutton runButton"><img class="normalImgButton" src="img/5Runs.png"></button>
+            <button onclick="runButtonPressed(6)" class="simplebutton runButton"><img class="normalImgButton" src="img/6Runs.png"></button>
+        </div>
+        <button onclick="goHome()" class="simplebutton homeButton"><i class="fas fa-home"></i> Home</button>
+    </div>
+
+    <div id="runsPressedScreen" class="hideBegin row" style="display: none">
+        <div class="column">
+            <h1 class="normalLabel" >You:</h1>
+            <img class="handImgPage" id="userChoseWhat">
+            <h1 class="normalLabel" id="scoreInRunsChosenUser"></h1>
+        </div>
+        <div class="column">
+            <img class="batBowlClass" id="batOrBowlImgRunsPressed">
+            <h1 class="normalLabel" id="outOrNotRuns"></h1>
+            <h1 id="runsGotText"></h1>
+            <button onclick="backToGame()" class="simplebutton" id="okayButton">Okay</button>
+            <button onclick="goHome()" class="simplebutton homeButton"><i class="fas fa-home"></i> Home</button>
+        </div>
+        <div class="column">
+            <h1 class="normalLabel" >The CPU:</h1>
+            <img class="handImgPage" id="computerChoseWhat">
+            <h1 class="normalLabel" id="scoreInRunsChosenComputer"></h1>
+        </div>
+        <div style="clear: both"></div>
+
+    </div>
+
+    <div id="outScreen" class="hideBegin" style="display: none">
+        <div class="column">
+            <h1 class="normalLabel" >You:</h1>
+            <img class="handImgPage" id="userChoseWhatOut">
+            <h1 class="normalLabel" id="scoreInRunsChosenUserOut"></h1>
+        </div>
+        <div class="column">
+            <h1 class="normalLabel" id="outOrNotOut"></h1>
+            <h1 class="normalLabel" id="outText"></h1>
+            <button class="simplebutton" onclick="firstInningsOut()" id="okayButton">Okay</button>
+            <button onclick="goHome()" class="simplebutton homeButton"><i class="fas fa-home"></i> Home</button>
+        </div>
+        <div class="column">
+            <h1 class="normalLabel" >The CPU:</h1>
+            <img class="handImgPage" id="computerChoseWhatOut">
+            <h1 class="normalLabel" id="scoreInRunsChosenComputerOut"></h1>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+
+    <div id="gameOverScreen" class="hideBegin" style="display: none">
+        <div class="column">
+            <h1 class="normalLabel" >You:</h1>
+            <img class="handImgPage" id="userChoseWhatOver">
+            <h1 class="normalLabel" id="scoreInRunsChosenUserOver"></h1>
+        </div>
+        <div class="column">
+            <img id="gameOverImg" src="img/GameOver.png">
+            <h1 class="normalLabel" id="outOrNotOver"></h1>
+            <h1 class="normalLabel" id="gameOverText"></h1>
+            <button onclick="homePressed(1)" class="simplebutton" id="gameOver"><i class="fas fa-home"></i> Go Home</button>
+        </div>
+        <div class="column">
+            <h1 class="normalLabel" >The CPU:</h1>
+            <img class="handImgPage" id="computerChoseWhatOver">
+            <h1 class="normalLabel" id="scoreInRunsChosenComputerOver"></h1>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+
+    <div id="countdownOnPress">
+        <div id="countingText">3</div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.vishnu.handcricket" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <feature name="CDVOrientation">
+        <param name="android-package" value="cordova.plugins.screenorientation.CDVOrientation" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <name>Hand Cricket</name>
+    <description>
+        A fun and easy-to-play hand based cricket game!
+    </description>
+    <author email="vishnupavan.satish@gmail.com" href="http://www.vishnus.me">
+        Vishnu Satish
+    </author>
+    <icon src="icon.png" />
+    <splash src="splash.png" />
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="android-minSdkVersion" value="17" />
+</widget>
